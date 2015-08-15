@@ -2,6 +2,8 @@
 # Change Log
 #=====================================================================
 #
+# version 3.0.1 - (2015-18-15)
+#     - Add Slack WebHook support for backup notification.
 # version 3.0_rc4 - (2011-11-24)
 #     - Removing mkfifo commands, thereby improving portability.
 #     - Fixing not working table exclude feature for wildcards.
