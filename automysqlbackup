@@ -95,6 +95,8 @@ load_default_config() {
   CONFIG_mail_address='root'
   CONFIG_encrypt='no'
   CONFIG_encrypt_password='password0123'
+  CONFIG_SLACK_SUCCESS_WEBHOOK=''
+  CONFIG_SLACK_ERROR_WEBHOOK=''
 }
 
 # @return:	true, if variable is set; else false
@@ -118,6 +120,20 @@ mail_cleanup () {
   if [[ ! -e "$log_file" && ! -e "$log_errfile" ]];then
     echo "Skipping normal output methods, since the program exited before any log files could be created."
   else
+  
+  # if slack if configured, send success or error message via web-hook
+  if [[ -s "$log_errfile" ]]; then
+    if [[ $CONFIG_SLACK_ERROR_WEBHOOK != '' ]]; then
+      SLACK_TEXT="MySQL Backup Failed on $(hostname): $(cat $log_errfile)"
+      curl -XPOST $CONFIG_SLACK_ERROR_WEBHOOK -d "payload={\"username\": \"MySQL Backup\", \"text\":\"${SLACK_TEXT}\" }"
+    fi
+  else
+    if [[ $CONFIG_SLACK_SUCCESS_WEBHOOK != '' ]]; then
+      SLACK_TEXT="MySQL Backup Successful on $(hostname)"
+      curl -XPOST $CONFIG_SLACK_SUCCESS_WEBHOOK -d "payload={\"username\": \"MySQL Backup\", \"text\":\"${SLACK_TEXT}\" }"
+    fi
+  fi
+  
     case "${CONFIG_mailcontent}" in
 	    'files')
 			    # Include error log if larger than zero.
