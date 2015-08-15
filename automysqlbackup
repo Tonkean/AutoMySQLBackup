@@ -115,6 +115,14 @@ isEmpty() {
 # @return:	(none)
 mail_cleanup () {
   removeIO
+  
+  # Remove annoying warning message since MySQL 5.6
+  if [[ -s "$log_errfile" ]]; then
+  sedtmpfile="/tmp/$(basename $0).$$.tmp"
+  grep -v "Warning: Using a password on the command line interface can be insecure." "$log_errfile" > $sedtmpfile
+  mv $sedtmpfile $log_errfile
+  fi
+
   # if the variables $log_file and $log_errfile aren't set or are empty and both associated files don't exist, skip output methods.
   # this might happen if 'exit' occurs before they are set.
   if [[ ! -e "$log_file" && ! -e "$log_errfile" ]];then
