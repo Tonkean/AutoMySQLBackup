@@ -1,6 +1,16 @@
 Auto MySQL Backup
 =============
 
+ - Imported from [sourceforge](http://sourceforge.net/projects/automysqlbackup/).
+ - Original licensing and credit is applied to [authors](http://sourceforge.net/p/automysqlbackup/wiki/Home/).
+
+## What's New
+#### Slack
+Support Successful and Failed Backup notification to Slack using WebHooks.
+2 new optional config keys:
+- CONFIG_SLACK_SUCCESS_WEBHOOK - the Slack WebHook to send message on successful backup.
+- CONFIG_SLACK_ERROR_WEBHOOK - the Slack WebHook to send message on failed backup woth the error message.
+
 ## Disclaimer
 I take no resposibility for any data loss or corruption when using this script.
 This script will not help in the event of a hard drive crash. If a copy of the
